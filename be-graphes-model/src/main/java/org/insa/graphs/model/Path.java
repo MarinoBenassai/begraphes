@@ -198,11 +198,16 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        boolean arcsConsecutifs = true;
+        Node ptDepart = this.origin;
+        for (Arc arc : arcs) {
+        	arcsConsecutifs= arcsConsecutifs && (ptDepart.equals(arc.getOrigin()));
+        	ptDepart=arc.getDestination();
+        }
+        boolean estValide = (arcsConsecutifs || this.isEmpty() || (this.getArcs().isEmpty()));
+        return estValide;
     }
 
     /**
@@ -240,11 +245,13 @@ public class Path {
      * 
      * @return Minimum travel time to travel this path (in seconds).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+        double tempsTrajet=0;
+        for (Arc arc : this.arcs) {
+        	tempsTrajet+=arc.getMinimumTravelTime();
+        }
+        return tempsTrajet;
     }
 
 }
