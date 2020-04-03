@@ -30,14 +30,35 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createFastestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
+    	if (nodes.isEmpty()) return new Path(graph);
+    	if (nodes.size()==1) return new Path(graph, nodes.get(0));
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        int nbNodes=nodes.size();
+        for (int i=0;i<nbNodes-1;i++) {
+        	List<Arc> successeurs=nodes.get(i).getSuccessors();
+        	List<Arc> arcPossibles=new ArrayList<Arc>();
+        	for (Arc arc : successeurs) {
+        		if (arc.getDestination().equals(nodes.get(i+1))) {
+        			arcPossibles.add(arc);
+        		}
+        	}
+        	if (arcPossibles.isEmpty()) throw new IllegalArgumentException();
+        	Arc plusRapide=arcPossibles.get(0);
+        	double minTempsTrajet=plusRapide.getMinimumTravelTime();
+        	for (Arc arc : arcPossibles) {
+        		if (arc.getMinimumTravelTime()<minTempsTrajet) {
+        			plusRapide=arc;
+        			minTempsTrajet=arc.getMinimumTravelTime();
+        		}
+        	}
+        	arcs.add(plusRapide);
+        }
         return new Path(graph, arcs);
     }
+    
 
     /**
      * Create a new path that goes through the given list of nodes (in order),
@@ -51,12 +72,32 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
+    	if (nodes.isEmpty()) return new Path(graph);
+    	if (nodes.size()==1) return new Path(graph, nodes.get(0));
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        int nbNodes=nodes.size();
+        for (int i=0;i<nbNodes-1;i++) {
+        	List<Arc> successeurs=nodes.get(i).getSuccessors();
+        	List<Arc> arcPossibles=new ArrayList<Arc>();
+        	for (Arc arc : successeurs) {
+        		if (arc.getDestination().equals(nodes.get(i+1))) {
+        			arcPossibles.add(arc);
+        		}
+        	}
+        	if (arcPossibles.isEmpty()) throw new IllegalArgumentException();
+        	Arc plusCourt=arcPossibles.get(0);
+        	float minLongueur=plusCourt.getLength();
+        	for (Arc arc : arcPossibles) {
+        		if (arc.getLength()<minLongueur) {
+        			plusCourt=arc;
+        			minLongueur=arc.getLength();
+        		}
+        	}
+        	arcs.add(plusCourt);
+        }
         return new Path(graph, arcs);
     }
 
