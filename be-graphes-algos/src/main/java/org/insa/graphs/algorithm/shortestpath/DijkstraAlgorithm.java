@@ -26,20 +26,24 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         int idOrigine = data.getOrigin().getId();
         labels.get(idOrigine).setCost(0.);
+        notifyOriginProcessed(data.getOrigin());
         tas.insert(labels.get(idOrigine));
         int sommetsMarqués = 0;
-        while (sommetsMarqués<nbNodes && !tas.isEmpty()) {
+        while (sommetsMarqués<nbNodes && !tas.isEmpty() && !labels.get(data.getDestination().getId()).getMarque()) {
         	Node sommetCourant = tas.deleteMin().getSommet();
         	labels.get(sommetCourant.getId()).setMarque(true);
+        	notifyNodeMarked(sommetCourant);
         	List<Arc> successeurs = sommetCourant.getSuccessors();
         	for (Arc arc : successeurs) {
         		int idFils = arc.getDestination().getId();
-        		if (!labels.get(idFils).getMarque()) {
+        		if (!labels.get(idFils).getMarque() & data.isAllowed(arc)) {
         			double coût = data.getCost(arc);
         			double coûtCourant = labels.get(sommetCourant.getId()).getCost();
         			if (labels.get(idFils).getCost() > coûtCourant + coût) {
         				try {tas.remove(labels.get(idFils));}
-                		catch (ElementNotFoundException e) {}
+                		catch (ElementNotFoundException e) {
+                			notifyNodeReached(arc.getDestination());
+                		}
         				labels.get(idFils).setCost(coûtCourant + coût);
         				labels.get(idFils).setPère(arc);
         				tas.insert(labels.get(idFils));
@@ -57,7 +61,10 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         }
         
         if (cheminFinal.isEmpty()) solution = new ShortestPathSolution(data,Status.INFEASIBLE);
-        else solution = new ShortestPathSolution(data,Status.FEASIBLE,new Path(graph,cheminFinal));
+        else {
+        	notifyDestinationReached(data.getDestination());
+        	solution = new ShortestPathSolution(data,Status.OPTIMAL,new Path(graph,cheminFinal));
+        }
         return solution;
     }
 
