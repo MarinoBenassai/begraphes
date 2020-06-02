@@ -176,6 +176,15 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         return minItem;
     }
 
+    
+    public boolean isValid() {
+    	boolean estValide = true;
+    	for (int i = 0;i<this.currentSize;i++) {
+    		estValide = estValide & this.array.get(i).compareTo(this.array.get(this.indexParent(i))) >= 0;
+    	}
+    	return estValide;
+    }
+    
     /**
      * Creates a multi-lines string representing a sorted view of this binary heap.
      * 
