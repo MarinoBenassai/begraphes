@@ -11,14 +11,14 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     }
     
     @Override
-    public LabelStar makeLabel (ShortestPathData data, Node sommet , boolean marque, double coût, Arc père) {
+    public LabelStar makeLabel (ShortestPathData data, Node sommet , boolean marque, double cout, Arc pere) {
     	
     	Node destination = data.getDestination();
-    	double distanceEstimée = sommet.getPoint().distanceTo(destination.getPoint());
-    	double coûtEstimé;
+    	double distanceEstimee = sommet.getPoint().distanceTo(destination.getPoint());
+    	double coutEstime;
     	
     	if (data.getMode() == Mode.LENGTH) {
-    		coûtEstimé = distanceEstimée;
+    		coutEstime = distanceEstimee;
     	}
     	
     	else {
@@ -30,13 +30,13 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     			if (vitesseMaxGraphe == -1) {
     				
     				//La vitesse max du graphe n'est pas non plus définie, on fixe une valeur arbitraire de 130 km/h
-    				coûtEstimé = distanceEstimée/(130*1000./3600.);
+    				coutEstime = distanceEstimee/(130*1000./3600.);
     			}
     			
     			else {
     				
     				//La vitesse max du graphe est définie, c'est elle que l'on utilise
-    				coûtEstimé = distanceEstimée/(vitesseMaxGraphe*1000./3600.);
+    				coutEstime = distanceEstimee/(vitesseMaxGraphe*1000./3600.);
     			}
 
     		}
@@ -48,18 +48,18 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     			if (vitesseMaxGraphe == -1) {
     				
     				//La vitesse max du graphe n'est pas définie, on utilise celle des données en entrée
-    				coûtEstimé = distanceEstimée/(vitesseMaxData*1000./3600.);
+    				coutEstime = distanceEstimee/(vitesseMaxData*1000./3600.);
     			}
     			
     			else {
     				
     				//Les deux vitesses sont définies, on prend la plus petite
-    				coûtEstimé = distanceEstimée/(Math.min(vitesseMaxData,vitesseMaxGraphe)*1000./3600.);
+    				coutEstime = distanceEstimee/(Math.min(vitesseMaxData,vitesseMaxGraphe)*1000./3600.);
     			}
     		}
     	}
     	
-    	return new LabelStar(sommet, marque, coût, père, coûtEstimé);
+    	return new LabelStar(sommet, marque, cout, pere, coutEstime);
    }
 
 }

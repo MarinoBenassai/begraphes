@@ -4,31 +4,31 @@ import org.insa.graphs.model.*;
 public class Label implements Comparable<Label>{
 	private Node sommet;
 	private boolean marque;
-	private double coût;
-	private Arc père;
+	private double cout;
+	private Arc pere;
 
-	public Label(Node sommet , boolean marque, double coût, Arc père) {
+	public Label(Node sommet , boolean marque, double cout, Arc pere) {
 		this.sommet = sommet;
 		this.marque = marque;
-		this.coût = coût;
-		this.père = père;
+		this.cout = cout;
+		this.pere = pere;
 		
 	}
 
 	public double getCost() {
-		return this.coût;
+		return this.cout;
 	}
 	
 	public double getTotalCost() {
-		return this.coût;
+		return this.cout;
 	}
 	
 	public Node getSommet() {
 		return this.sommet;
 	}
 	
-	public void setCost(double coût) {	
-		this.coût = coût;
+	public void setCost(double cout) {	
+		this.cout = cout;
 	}
 	
 	public boolean getMarque() {
@@ -39,12 +39,12 @@ public class Label implements Comparable<Label>{
 		this.marque = marque;
 	}
 	
-	public Arc getPère() {
-		return this.père;
+	public Arc getPere() {
+		return this.pere;
 	}
 	
-	public void setPère(Arc père) {
-		this.père = père;
+	public void setPere(Arc pere) {
+		this.pere = pere;
 	}
 	
 	public int compareTo(Label label) {
@@ -93,7 +93,7 @@ public class Label implements Comparable<Label>{
 	
 	public String toString() {
 		String texte = "Label associé au sommet "+sommet;
-		if (this.marque) return texte+", marqué, de coût "+coût+"et de père "+père+".\n";
-		else return texte+", non marqué, de coût "+coût+" et de père "+père+".\n";
+		if (this.marque) return texte+", marqué, de coût "+cout+"et de père "+pere+".\n";
+		else return texte+", non marqué, de coût "+cout+" et de père "+pere+".\n";
 	}
 }
